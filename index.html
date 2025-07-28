@@ -1,0 +1,1980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PrepMap Pro – Stop cramming. Start mapping.</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><rect width='32' height='32' rx='8' fill='%233F51B5'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='white'>P</text></svg>">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #06b6d4;
+      --accent: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --surface: #ffffff;
+      --surface-alt: #f8fafc;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--primary);
+    }
+
+    .nav-logo svg {
+      filter: drop-shadow(0 2px 4px rgba(99, 102, 241, 0.3));
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-illustration {
+      margin-bottom: 2rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    .btn {
+      background: var(--gradient-accent);
+      color: white;
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-lg);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 6rem 2rem;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .features::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%236366f1' fill-opacity='0.03'%3E%3Cpolygon points='50 0 60 40 100 50 60 60 50 100 40 60 0 50 40 40'/%3E%3C/g%3E%3C/svg%3E") repeat;
+    }
+
+    .features-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .features-header {
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+
+    .features-header h2 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .features-header p {
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .features-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 8rem;
+    }
+
+    .feature-demo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .feature-demo.reverse {
+      direction: rtl;
+    }
+
+    .feature-demo.reverse > * {
+      direction: ltr;
+    }
+
+    .demo-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .demo-description h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .demo-description p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    /* Code Window */
+    .code-window {
+      background: #1e293b;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .window-header {
+      background: #334155;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .traffic-lights {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .light {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .light.red { background: #ef4444; }
+    .light.yellow { background: #f59e0b; }
+    .light.green { background: #10b981; }
+
+    .window-title {
+      color: #e2e8f0;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .code-content {
+      padding: 2rem;
+      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .code-line {
+      color: #e2e8f0;
+      margin-bottom: 0.5rem;
+    }
+
+    .keyword { color: #c084fc; }
+    .function { color: #60a5fa; }
+    .param { color: #34d399; }
+    .comment { color: #6b7280; }
+
+    /* Company Selector */
+    .company-selector {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    .company-card {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      box-shadow: var(--shadow);
+    }
+
+    .company-card:hover, .company-card.active {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .company-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.5rem;
+      margin: 0 auto 1rem;
+    }
+
+    .company-card span {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .weight-bars {
+      display: flex;
+      gap: 0.25rem;
+      justify-content: center;
+      height: 30px;
+      align-items: end;
+    }
+
+    .bar {
+      width: 8px;
+      background: var(--gradient-primary);
+      border-radius: 4px;
+      transition: height 0.3s ease;
+    }
+
+    /* Calendar Widget */
+    .calendar-widget {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .calendar-header h4 {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .days-left {
+      background: var(--gradient-primary);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .calendar-days {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .day {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .day:hover, .day.active {
+      background: var(--surface-alt);
+      transform: translateX(4px);
+    }
+
+    .day-number {
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .tasks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .task {
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .task.algo { background: rgba(99, 102, 241, 0.1); color: var(--primary); }
+    .task.design { background: rgba(16, 185, 129, 0.1); color: var(--accent); }
+    .task.ds { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+    .task.behav { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+    /* Feature Stats */
+    .feature-stats {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      display: block;
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Company Insights */
+    .company-insights {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .insight {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      background: var(--surface-alt);
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    .insight-icon {
+      font-size: 1.2rem;
+    }
+
+    /* Schedule Benefits */
+    .schedule-benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .benefit {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* Import Zone */
+    .import-zone-wrap {
+      padding: 4rem 2rem;
+      background: var(--surface);
+      display: flex;
+      justify-content: center;
+    }
+
+    .import-zone {
+      max-width: 600px;
+      width: 100%;
+      border: 3px dashed var(--border);
+      border-radius: 20px;
+      padding: 3rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      background: var(--surface-alt);
+    }
+
+    .import-zone:hover, .import-zone.dragover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .import-zone .icon {
+      margin-bottom: 1.5rem;
+      animation: bounce 2s infinite;
+    }
+
+    .import-zone label {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .import-zone input[type="file"] {
+      display: none;
+    }
+
+    .file-list {
+      margin-top: 2rem;
+      text-align: left;
+    }
+
+    .file-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: var(--surface);
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      animation: slideInUp 0.3s ease-out;
+    }
+
+    .file-item:hover {
+      transform: translateX(4px);
+    }
+
+    .file-item .remove {
+      background: var(--danger);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .file-item .remove:hover {
+      transform: scale(1.1);
+      background: #dc2626;
+    }
+
+    /* Spinner */
+    .spinner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid var(--border);
+      border-top: 4px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    /* Main Panels */
+    .main-panels {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 2rem;
+      padding: 2rem;
+      background: var(--surface-alt);
+      min-height: 600px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .panel:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Skills */
+    .skill-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .chip {
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      background: var(--surface-alt);
+      border: 2px solid var(--border);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .chip:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .chip.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Table */
+    .rank-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    .rank-table th,
+    .rank-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .rank-table th {
+      background: var(--surface-alt);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .rank-table tr {
+      transition: all 0.3s ease;
+      animation: slideInLeft 0.5s ease-out forwards;
+    }
+
+    .rank-table tr:hover {
+      background: var(--surface-alt);
+      transform: translateX(4px);
+    }
+
+    .score-bar-wrap {
+      width: 100px;
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .score-bar {
+      height: 100%;
+      background: var(--gradient-primary);
+      transition: width 1s ease-out;
+      border-radius: 4px;
+    }
+
+    .expand-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .expand-btn:hover {
+      transform: scale(1.1);
+      background: var(--primary-dark);
+    }
+
+    /* Enhanced Micro Summary */
+    enhancedMicroSummaryCSS = `
+  /* Enhanced Micro Summary Styles */
+  .micro-summary {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, rgba(16, 185, 129, 0.03) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-top: 2rem;
+    animation: slideInUp 0.4s ease-out;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Inter', system-ui, sans-serif;
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+  }
+
+  .micro-summary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    border-radius: 20px 20px 0 0;
+  }
+
+  .micro-summary-header {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+  }
+
+  .micro-summary-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--gradient-primary);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+  }
+
+  .micro-summary-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+
+  .micro-summary-content {
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.8;
+    text-align: left;
+  }
+
+  /* Enhanced heading styles with better hierarchy */
+  .micro-summary-content h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 2.5rem 0 1.5rem 0;
+    padding: 1rem 0 0.8rem 0;
+    border-bottom: 3px solid rgba(99, 102, 241, 0.3);
+    position: relative;
+    background: rgba(99, 102, 241, 0.05);
+    padding-left: 1rem;
+    border-radius: 8px;
+  }
+
+  .micro-summary-content h1::before {
+    content: '📚';
+    margin-right: 0.8rem;
+    font-size: 1.2em;
+  }
+
+  .micro-summary-content h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 2rem 0 1rem 0;
+    padding: 0.8rem 0 0.8rem 1.2rem;
+    border-left: 5px solid var(--accent);
+    background: rgba(16, 185, 129, 0.05);
+    border-radius: 0 8px 8px 0;
+    position: relative;
+  }
+
+  .micro-summary-content h2::before {
+    content: '🔹';
+    margin-right: 0.6rem;
+  }
+
+  .micro-summary-content h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--secondary);
+    margin: 1.5rem 0 0.8rem 0;
+    padding: 0.5rem 0 0.5rem 0.8rem;
+    border-left: 3px solid var(--secondary);
+    position: relative;
+  }
+
+  .micro-summary-content h3::before {
+    content: '▸';
+    margin-right: 0.5rem;
+    color: var(--secondary);
+  }
+
+  /* Special header types */
+  .micro-summary-content .algo-header {
+    background: rgba(99, 102, 241, 0.1);
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 800;
+    color: var(--primary);
+  }
+
+  .micro-summary-content .algo-header::before {
+    content: '⚡';
+    margin-right: 0.5rem;
+  }
+
+  .micro-summary-content .step-header {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+    border-left: 4px solid var(--warning);
+    padding: 0.5rem 1rem;
+    border-radius: 0 8px 8px 0;
+    font-weight: 700;
+  }
+
+  .micro-summary-content .step-content {
+    background: rgba(245, 158, 11, 0.05);
+    padding: 1rem;
+    margin: 0.5rem 0 1rem 0;
+    border-radius: 8px;
+    border-left: 2px solid var(--warning);
+  }
+
+  /* Enhanced text formatting */
+  .micro-summary-content p {
+    margin-bottom: 1.2rem;
+    text-align: justify;
+  }
+
+  .micro-summary-content .keyword {
+    color: var(--primary);
+    font-weight: 700;
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.1rem 0.3rem;
+    border-radius: 4px;
+  }
+
+  .micro-summary-content .important {
+    color: var(--warning);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+
+  .micro-summary-content .example-intro {
+    color: var(--accent);
+    font-weight: 600;
+    font-style: italic;
+  }
+
+  .micro-summary-content .example-box {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-left: 5px solid var(--accent);
+    position: relative;
+  }
+
+  .micro-summary-content .example-box::before {
+    content: '💡 Example';
+    position: absolute;
+    top: -0.6rem;
+    left: 1rem;
+    background: var(--surface);
+    color: var(--accent);
+    padding: 0.2rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .micro-summary-content .definition {
+    background: rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+
+  .micro-summary-content .definition .term {
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .micro-summary-content .definition .def-text {
+    color: var(--text);
+  }
+
+  /* Enhanced code styling */
+  .micro-summary-content .code-block {
+    margin: 1.5rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .micro-summary-content .code-block pre {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 2rem;
+    margin: 0;
+    overflow-x: auto;
+    border-left: 4px solid var(--primary);
+    font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .micro-summary-content .inline-code {
+    background: rgba(30, 41, 59, 0.1);
+    color: var(--primary-dark);
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+  }
+
+  /* Lists */
+  .micro-summary-content .formatted-list {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .micro-summary-content .formatted-list li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .micro-summary-content ul.formatted-list {
+    list-style: none;
+  }
+
+  .micro-summary-content ul.formatted-list li::before {
+    content: '•';
+    color: var(--primary);
+    font-weight: bold;
+    position: absolute;
+    margin-left: -1rem;
+  }
+
+  .micro-summary-meta {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(99, 102, 241, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .micro-summary-skill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.85rem;
+  }
+
+  .reading-time {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+
+    /* Calendar */
+    .calendar-preview {
+      margin-bottom: 2rem;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .calendar-day {
+      background: var(--surface-alt);
+      border-radius: 12px;
+      padding: 1rem;
+      border-left: 4px solid var(--primary);
+      transition: all 0.3s ease;
+      animation: fadeInScale 0.5s ease-out;
+    }
+
+    .calendar-day:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .calendar-day .task {
+      display: block;
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+      padding: 0.5rem;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Export Buttons */
+    .export-btns {
+      padding: 2rem;
+      background: var(--surface);
+      gap: 1rem;
+    }
+
+    .export-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 0 0.5rem;
+    }
+
+    .export-btn:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    /* Slider */
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--border);
+      outline: none;
+      margin: 1rem 0;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero p {
+        font-size: 1.2rem;
+      }
+      
+      .features-header h2 {
+        font-size: 2rem;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-demo {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+      }
+
+      .feature-demo.reverse {
+        direction: ltr;
+      }
+
+      .features-showcase {
+        gap: 4rem;
+      }
+      
+      .main-panels {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+      }
+      
+      nav {
+        padding: 1rem;
+      }
+      
+      .nav-links {
+        gap: 1rem;
+      }
+    }
+    
+  </style>
+</head>
+<body>
+  <!-- === Sticky Top Nav === -->
+  <nav>
+    <div class="nav-logo">
+      <!-- Inline SVG logo -->
+      <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#3F51B5"/><text x="14" y="19" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial" font-weight="bold">P</text></svg>
+      PrepMap Pro
+    </div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#docs">Docs</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </nav>
+  <!-- === Hero Section === -->
+  <section class="hero">
+    <div class="hero-illustration">
+      <!-- Simple SVG of books -->
+      <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
+        <rect x="10" y="30" width="16" height="50" rx="3" fill="#FFB300" stroke="#E0A800" stroke-width="2"/>
+        <rect x="30" y="20" width="16" height="60" rx="3" fill="#3F51B5" stroke="#2C387E" stroke-width="2"/>
+        <rect x="50" y="35" width="16" height="45" rx="3" fill="#00BFA5" stroke="#008E76" stroke-width="2"/>
+        <rect x="70" y="25" width="8" height="55" rx="2" fill="#ECE7DF"/>
+        <rect x="10" y="60" width="68" height="4" rx="2" fill="#ece7df"/>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <h1>Stop cramming. Start mapping.</h1>
+      <p>Feed us your prep PDFs—get a day‑by‑day study plan in minutes.</p>
+      <button class="btn" id="getStartedBtn">Get Started</button>
+    </div>
+  </section>
+  <section class="features" id="features">
+    <div class="features-container">
+      <div class="features-header">
+        <h2>🚀 Why PrepMap Pro?</h2>
+        <p>Turn chaos into clarity with AI-powered study optimization</p>
+      </div>
+      
+      <div class="features-showcase">
+        <div class="feature-demo">
+          <div class="demo-visual">
+            <div class="code-window">
+              <div class="window-header">
+                <div class="traffic-lights">
+                  <span class="light red"></span>
+                  <span class="light yellow"></span>
+                  <span class="light green"></span>
+                </div>
+                <span class="window-title">analysis.py</span>
+              </div>
+              <div class="code-content">
+                <div class="code-line"><span class="keyword">def</span> <span class="function">analyze_pdfs</span>(<span class="param">files</span>):</div>
+                <div class="code-line">  <span class="comment"># Extract & rank topics</span></div>
+                <div class="code-line">  sections = <span class="function">extract_sections</span>(files)</div>
+                <div class="code-line">  scores = <span class="function">tfidf_score</span>(sections)</div>
+                <div class="code-line">  <span class="keyword">return</span> <span class="function">optimize_study_plan</span>(scores)</div>
+              </div>
+            </div>
+          </div>
+          <div class="demo-description">
+            <h3>💡 Smart PDF Analysis</h3>
+            <p>Upload your messy collection of interview prep PDFs and watch our AI instantly extract, categorize, and rank every important topic. No more wondering what to study first.</p>
+            <div class="feature-stats">
+              <div class="stat">
+                <span class="stat-number">10x</span>
+                <span class="stat-label">Faster Planning</span>
+              </div>
+              <div class="stat">
+                <span class="stat-number">95%</span>
+                <span class="stat-label">Accuracy</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-demo reverse">
+          <div class="demo-visual">
+            <div class="company-selector">
+              <div class="company-card active" data-company="google">
+                <div class="company-logo">G</div>
+                <span>Google</span>
+                <div class="weight-bars">
+                  <div class="bar" style="height: 80%"></div>
+                  <div class="bar" style="height: 60%"></div>
+                  <div class="bar" style="height: 90%"></div>
+                </div>
+              </div>
+              <div class="company-card" data-company="amazon">
+                <div class="company-logo">A</div>
+                <span>Amazon</span>
+                <div class="weight-bars">
+                  <div class="bar" style="height: 70%"></div>
+                  <div class="bar" style="height: 85%"></div>
+                  <div class="bar" style="height: 65%"></div>
+                </div>
+              </div>
+              <div class="company-card" data-company="meta">
+                <div class="company-logo">M</div>
+                <span>Meta</span>
+                <div class="weight-bars">
+                  <div class="bar" style="height: 85%"></div>
+                  <div class="bar" style="height: 70%"></div>
+                  <div class="bar" style="height: 80%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="demo-description">
+            <h3>🎯 Company-Specific Optimization</h3>
+            <p>Different companies, different priorities. Our algorithm automatically adjusts your study plan based on each company's interview patterns and what they actually care about.</p>
+            <div class="company-insights">
+              <div class="insight">
+                <span class="insight-icon">🔍</span>
+                <span>Google loves algorithms</span>
+              </div>
+              <div class="insight">
+                <span class="insight-icon">📊</span>
+                <span>Amazon focuses on leadership</span>
+              </div>
+              <div class="insight">
+                <span class="insight-icon">⚡</span>
+                <span>Meta wants system thinking</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-demo">
+          <div class="demo-visual">
+            <div class="calendar-widget">
+              <div class="calendar-header">
+                <h4>📅 Your Study Plan</h4>
+                <span class="days-left">30 days to go</span>
+              </div>
+              <div class="calendar-days">
+                <div class="day active">
+                  <div class="day-number">1</div>
+                  <div class="tasks">
+                    <span class="task algo">Binary Search</span>
+                    <span class="task design">API Design</span>
+                  </div>
+                </div>
+                <div class="day">
+                  <div class="day-number">2</div>
+                  <div class="tasks">
+                    <span class="task ds">Hash Tables</span>
+                    <span class="task behav">Leadership</span>
+                  </div>
+                </div>
+                <div class="day">
+                  <div class="day-number">3</div>
+                  <div class="tasks">
+                    <span class="task algo">Dynamic Programming</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="demo-description">
+            <h3>📆 Intelligent Scheduling</h3>
+            <p>Get a day-by-day roadmap that actually works. Our AI balances different skill areas, considers your timeline, and even exports to your calendar app.</p>
+            <div class="schedule-benefits">
+              <div class="benefit">✅ Optimal topic spacing</div>
+              <div class="benefit">✅ Balanced skill coverage</div>
+              <div class="benefit">✅ Calendar integration</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- === Import Zone === -->
+  <div class="import-zone-wrap" id="importZoneWrap">
+    <div class="import-zone" id="importZone">
+      <div class="icon">
+        <!-- Upload SVG -->
+        <svg width="40" height="40" viewBox="0 0 40 40"><rect x="8" y="28" width="24" height="4" rx="2" fill="#3F51B5"/><path d="M20 28V10" stroke="#3F51B5" stroke-width="3" stroke-linecap="round"/><path d="M14 16l6-6 6 6" stroke="#3F51B5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      </div>
+      <label for="fileInput">Drag & drop or <span style="text-decoration:underline;">choose up to 10 PDFs</span></label>
+      <input type="file" id="fileInput" accept="application/pdf" multiple>
+      <div class="file-list" id="fileList"></div>
+      <div class="spinner-overlay" id="spinnerOverlay" style="display:none;">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </div>
+  <!-- === Main Panels (hidden until processing done) === -->
+  <div class="main-panels" id="mainPanels" style="display:none;">
+    <!-- Left: Skill Chips -->
+    <div class="panel left">
+      <div style="font-weight:600; margin-bottom:0.7em;">Skills</div>
+      <div class="skill-chips" id="skillChips"></div>
+    </div>
+    <!-- Mid: Ranked Table -->
+    <div class="panel mid">
+      <div style="font-weight:600; margin-bottom:0.7em;">Top Sections</div>
+      <table class="rank-table" id="rankTable"></table>
+      <div id="microSummary"></div>
+    </div>
+    <!-- Right: Calendar Preview -->
+    <div class="panel right">
+      <div style="display:flex; align-items:center; gap:0.5em; font-weight:600; margin-bottom:0.7em;">
+        <!-- Calendar SVG -->
+        <svg width="22" height="22" viewBox="0 0 22 22"><rect x="2" y="5" width="18" height="15" rx="3" fill="#3F51B5"/><rect x="2" y="5" width="18" height="3" fill="#00BFA5"/><rect x="6" y="10" width="3" height="3" rx="1" fill="#fff"/><rect x="13" y="10" width="3" height="3" rx="1" fill="#fff"/></svg>
+        Calendar Preview
+      </div>
+      <div class="calendar-preview" id="calendarPreview"></div>
+      <div style="margin:1em 0;">
+        <label for="daysSlider" style="font-size:0.98em;">Days until interview: <span id="daysVal">7</span></label>
+        <input type="range" id="daysSlider" min="5" max="30" value="7" style="width:100%;">
+      </div>
+      <button class="export-btn" id="downloadICSBtn">Download .ics</button>
+    </div>
+  </div>
+  <!-- === Export Buttons (below panels) === -->
+  <div class="export-btns" id="exportBtns" style="display:none; justify-content:center;">
+    <button class="export-btn" id="downloadJSONBtn">Download JSON</button>
+    <button class="export-btn" id="copyMarkdownBtn">Copy Markdown</button>
+  </div>
+  <!-- === Minimal Docs/Features anchors for nav === -->
+  <div id="features" style="height:1px;"></div>
+  <div id="docs" style="height:1px;"></div>
+
+
+
+
+
+  <!-- === Inline JS (ES Modules) === -->
+  <script type="module">
+    // --- PDF.js CDN loader ---
+    const PDFJS_URL = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js";
+    const PDFJS_WORKER = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+    let pdfjsLib;
+    async function loadPDFJS() {
+      if (window.pdfjsLib) return window.pdfjsLib;
+      await import(PDFJS_URL);
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+      pdfjsLib = window.pdfjsLib;
+      return pdfjsLib;
+    }
+  
+    // === Enhanced micro-summary formatting (functions + CSS) ====================
+    function formatMicroSummary(rawText, title, skill) {
+      const fullText = rawText || "";
+      let formattedText = preprocessText(fullText);
+      formattedText = applySmartFormatting(formattedText, skill);
+      return createFormattedHTML(formattedText, title, skill);
+    }
+  
+    function preprocessText(text) {
+      text = text.replace(/[ \t]+/g, " ").trim();
+      text = text.replace(/```([\s\S]*?)```/g, "<PRE_CODE>$1</PRE_CODE>");
+      text = text.replace(/`([^`]+)`/g, "<INLINE_CODE>$1</INLINE_CODE>");
+      text = text.replace(/^###\s+(.+)$/gm, "<HEADER3>$1</HEADER3>");
+      text = text.replace(/^##\s+(.+)$/gm, "<HEADER2>$1</HEADER2>");
+      text = text.replace(/^#\s+(.+)$/gm, "<HEADER1>$1</HEADER1>");
+      text = text.replace(/^(\d+(?:\.\d+)*)\s+([A-Z][^.!?]*[.!?]?)\s*$/gm, "<HEADER1>$1 $2</HEADER1>");
+      text = text.replace(/^([A-Z][A-Z\s]{5,}[A-Z]):?\s*$/gm, "<HEADER1>$1</HEADER1>");
+      text = text.replace(/^([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,5}):?\s*$/gm, "<HEADER2>$1</HEADER2>");
+      text = text.replace(/^\d+\.\s+(.+)$/gm, "<NUMBERED_ITEM>$1</NUMBERED_ITEM>");
+      text = text.replace(/^[-•*]\s+(.+)$/gm, "<BULLET_ITEM>$1</BULLET_ITEM>");
+      text = text.replace(/^(Step \d+):?\s*(.+)$/gm, "<STEP_HEADER>$1</STEP_HEADER><STEP_CONTENT>$2</STEP_CONTENT>");
+      text = text.replace(/^(Algorithm|Pseudocode):?\s*$/gm, "<ALGO_HEADER>$1</ALGO_HEADER>");
+      return text;
+    }
+  
+    function applySmartFormatting(text, skill) {
+      const skillKeywords = {
+        Algorithm: ["O(n)", "O(log n)", "O(n²)", "complexity", "runtime", "space", "time", "binary search", "sort", "recursion", "dynamic programming", "greedy"],
+        DS: ["array", "linked list", "stack", "queue", "heap", "hash table", "tree", "graph", "trie", "set", "map"],
+        "System Design": ["scalability", "load balancer", "database", "cache", "API", "microservices", "sharding", "replication", "consistency", "availability"],
+        Behavioural: ["leadership", "conflict", "teamwork", "communication", "feedback", "ownership", "impact", "decision", "priority", "challenge"]
+      };
+      const keywords = skillKeywords[skill] || [];
+      keywords.forEach(keyword => {
+        const regex = new RegExp(`\\b(${keyword})\\b`, "gi");
+        text = text.replace(regex, "<KEYWORD>$1</KEYWORD>");
+      });
+      text = text.replace(/\b([A-Z]{2,})\b/g, "<IMPORTANT>$1</IMPORTANT>");
+      text = text.replace(/(example|for instance|e\.g\.|such as):?\s*([^.!?]+[.!?])/gi, "<EXAMPLE_INTRO>$1:</EXAMPLE_INTRO> <EXAMPLE_TEXT>$2</EXAMPLE_TEXT>");
+      text = text.replace(/\b([A-Za-z]+(?:\s+[A-Za-z]+)*)\s*(?:is|are|:|–|—)\s*([^.!?]+[.!?])/g, "<DEFINITION><TERM>$1</TERM>: <DEF_TEXT>$2</DEF_TEXT></DEFINITION>");
+      return text;
+    }
+  
+    function createFormattedHTML(text, title, skill) {
+      const skillIcon = { Algorithm: "⚡", DS: "🏗️", "System Design": "🔧", Behavioural: "👥" };
+      let html = text
+        .replace(/<HEADER1>(.*?)<\/HEADER1>/g, "<h1>$1</h1>")
+        .replace(/<HEADER2>(.*?)<\/HEADER2>/g, "<h2>$1</h2>")
+        .replace(/<HEADER3>(.*?)<\/HEADER3>/g, "<h3>$1</h3>")
+        .replace(/<ALGO_HEADER>(.*?)<\/ALGO_HEADER>/g, '<h2 class="algo-header">$1</h2>')
+        .replace(/<STEP_HEADER>(.*?)<\/STEP_HEADER>/g, '<h3 class="step-header">$1</h3>')
+        .replace(/<STEP_CONTENT>(.*?)<\/STEP_CONTENT>/g, '<div class="step-content">$1</div>')
+        .replace(/<PRE_CODE>(.*?)<\/PRE_CODE>/gs, '<div class="code-block"><pre><code>$1</code></pre></div>')
+        .replace(/<INLINE_CODE>(.*?)<\/INLINE_CODE>/g, '<code class="inline-code">$1</code>')
+        .replace(/<NUMBERED_ITEM>(.*?)<\/NUMBERED_ITEM>/g, '<li class="numbered">$1</li>')
+        .replace(/<BULLET_ITEM>(.*?)<\/BULLET_ITEM>/g, '<li class="bullet">$1</li>')
+        .replace(/<KEYWORD>(.*?)<\/KEYWORD>/g, '<strong class="keyword">$1</strong>')
+        .replace(/<IMPORTANT>(.*?)<\/IMPORTANT>/g, '<span class="important">$1</span>')
+        .replace(/<EXAMPLE_INTRO>(.*?)<\/EXAMPLE_INTRO>/g, '<span class="example-intro">$1</span>')
+        .replace(/<EXAMPLE_TEXT>(.*?)<\/EXAMPLE_TEXT>/g, '<div class="example-box">$1</div>')
+        .replace(/<DEFINITION><TERM>(.*?)<\/TERM>:\s*<DEF_TEXT>(.*?)<\/DEF_TEXT><\/DEFINITION>/g, '<div class="definition"><span class="term">$1</span>: <span class="def-text">$2</span></div>');
+  
+      html = html.replace(/(<li class="numbered">.*?<\/li>)/gs, m => m.replace(/<li class="numbered">/g, "<li>"));
+      html = html.replace(/(<li class="bullet">.*?<\/li>)/gs, m => m.replace(/<li class="bullet">/g, "<li>"));
+      html = html.replace(/(<li>.*?<\/li>\s*)+/gs, match => (text.includes("NUMBERED_ITEM") ? `<ol class="formatted-list">${match}</ol>` : `<ul class="formatted-list">${match}</ul>`));
+  
+      const sections = html.split(/(?=<h[123]>)/);
+      const formattedSections = sections
+        .map(section => {
+          if (!section.trim()) return "";
+          const headerMatch = section.match(/^(<h[123].*?<\/h[123]>)([\s\S]*)/);
+          if (headerMatch) {
+            const header = headerMatch[1];
+            const content = headerMatch[2].trim();
+            if (content) {
+              const paragraphs = content.split(/\n\s*\n/).filter(p => p.trim());
+              const formattedContent = paragraphs
+                .map(p => {
+                  p = p.trim();
+                  if (p.startsWith("<") || p.includes("<div") || p.includes("<ol") || p.includes("<ul") || p.includes("<pre") || p.includes("<code")) return p;
+                  return `<p>${p}</p>`;
+                })
+                .join("\n");
+              return header + "\n" + formattedContent;
+            }
+            return header;
+          } else {
+            const paragraphs = section.split(/\n\s*\n/).filter(p => p.trim());
+            return paragraphs
+              .map(p => {
+                p = p.trim();
+                if (p.startsWith("<") || p.includes("<div") || p.includes("<ol") || p.includes("<ul") || p.includes("<pre") || p.includes("<code")) return p;
+                return `<p>${p}</p>`;
+              })
+              .join("\n");
+          }
+        })
+        .join("\n");
+  
+      return `
+        <div class="micro-summary">
+          <div class="micro-summary-header">
+            <div class="micro-summary-icon">${skillIcon[skill] || "📋"}</div>
+            <div class="micro-summary-title">${title}</div>
+          </div>
+          <div class="micro-summary-content">
+            ${formattedSections}
+          </div>
+          <div class="micro-summary-meta">
+            <span class="micro-summary-skill">${skillIcon[skill] || "📋"} ${skill}</span>
+            <span class="reading-time">${estimateReadingTime(text)} min read</span>
+          </div>
+        </div>
+      `;
+    }
+  
+    function estimateReadingTime(text) {
+      const wordsPerMinute = 200;
+      const wordCount = text.split(/\s+/).length;
+      return Math.ceil(wordCount / wordsPerMinute);
+    }
+  
+    const enhancedMicroSummaryCSS = `
+      /* Enhanced Micro Summary Styles */
+      .micro-summary{background:linear-gradient(135deg,rgba(99,102,241,.03) 0%,rgba(16,185,129,.03) 100%);border:1px solid rgba(99,102,241,.15);border-radius:20px;padding:2.5rem;margin-top:2rem;animation:slideInUp .4s ease-out;position:relative;overflow:hidden;font-family:'Inter',system-ui,sans-serif;box-shadow:0 10px 30px rgba(99,102,241,.1)}
+      .micro-summary::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gradient-primary);border-radius:20px 20px 0 0}
+      .micro-summary-header{display:flex;align-items:center;gap:1.2rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(99,102,241,.1)}
+      .micro-summary-icon{width:48px;height:48px;background:var(--gradient-primary);border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:20px;box-shadow:0 8px 20px rgba(99,102,241,.3)}
+      .micro-summary-title{font-size:1.6rem;font-weight:800;color:var(--text);background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+      .micro-summary-content{color:var(--text);font-size:1rem;line-height:1.8;text-align:left}
+      .micro-summary-content h1{font-size:1.5rem;font-weight:800;color:var(--primary);margin:2.5rem 0 1.5rem 0;padding:1rem 0 .8rem 0;border-bottom:3px solid rgba(99,102,241,.3);position:relative;background:rgba(99,102,241,.05);padding-left:1rem;border-radius:8px}
+      .micro-summary-content h1::before{content:'📚';margin-right:.8rem;font-size:1.2em}
+      .micro-summary-content h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin:2rem 0 1rem 0;padding:.8rem 0 .8rem 1.2rem;border-left:5px solid var(--accent);background:rgba(16,185,129,.05);border-radius:0 8px 8px 0;position:relative}
+      .micro-summary-content h2::before{content:'🔹';margin-right:.6rem}
+      .micro-summary-content h3{font-size:1.15rem;font-weight:600;color:var(--secondary);margin:1.5rem 0 .8rem 0;padding:.5rem 0 .5rem .8rem;border-left:3px solid var(--secondary);position:relative}
+      .micro-summary-content h3::before{content:'▸';margin-right:.5rem;color:var(--secondary)}
+      .micro-summary-content .algo-header{background:rgba(99,102,241,.1);border:2px solid var(--primary);border-radius:12px;padding:1rem;text-align:center;font-weight:800;color:var(--primary)}
+      .micro-summary-content .algo-header::before{content:'⚡';margin-right:.5rem}
+      .micro-summary-content .step-header{background:rgba(245,158,11,.1);color:var(--warning);border-left:4px solid var(--warning);padding:.5rem 1rem;border-radius:0 8px 8px 0;font-weight:700}
+      .micro-summary-content .step-content{background:rgba(245,158,11,.05);padding:1rem;margin:.5rem 0 1rem 0;border-radius:8px;border-left:2px solid var(--warning)}
+      .micro-summary-content p{margin-bottom:1.2rem;text-align:justify}
+      .micro-summary-content .keyword{color:var(--primary);font-weight:700;background:rgba(99,102,241,.1);padding:.1rem .3rem;border-radius:4px}
+      .micro-summary-content .important{color:var(--warning);font-weight:600;text-transform:uppercase;font-size:.9rem;letter-spacing:.5px}
+      .micro-summary-content .example-intro{color:var(--accent);font-weight:600;font-style:italic}
+      .micro-summary-content .example-box{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);border-radius:12px;padding:1.5rem;margin:1.5rem 0;border-left:5px solid var(--accent);position:relative}
+      .micro-summary-content .example-box::before{content:'💡 Example';position:absolute;top:-.6rem;left:1rem;background:var(--surface);color:var(--accent);padding:.2rem .8rem;border-radius:12px;font-size:.8rem;font-weight:600;border:1px solid rgba(16,185,129,.3)}
+      .micro-summary-content .definition{background:rgba(99,102,241,.05);border:1px solid rgba(99,102,241,.2);border-radius:8px;padding:1rem;margin:1rem 0}
+      .micro-summary-content .definition .term{font-weight:700;color:var(--primary)}
+      .micro-summary-content .definition .def-text{color:var(--text)}
+      .micro-summary-content .code-block{margin:1.5rem 0;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+      .micro-summary-content .code-block pre{background:#1e293b;color:#e2e8f0;padding:2rem;margin:0;overflow-x:auto;border-left:4px solid var(--primary);font-family:'Monaco','Menlo','Courier New',monospace;font-size:.9rem;line-height:1.6}
+      .micro-summary-content .inline-code{background:rgba(30,41,59,.1);color:var(--primary-dark);padding:.3rem .5rem;border-radius:6px;font-family:'Monaco','Menlo',monospace;font-size:.9rem;font-weight:600;border:1px solid rgba(99,102,241,.2)}
+      .micro-summary-content .formatted-list{margin:1rem 0;padding-left:1.5rem}
+      .micro-summary-content .formatted-list li{margin-bottom:.5rem;line-height:1.6;position:relative}
+      .micro-summary-content ul.formatted-list{list-style:none}
+      .micro-summary-content ul.formatted-list li::before{content:'•';color:var(--primary);font-weight:700;position:absolute;margin-left:-1rem}
+      .micro-summary-meta{margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(99,102,241,.1);display:flex;justify-content:space-between;align-items:center;font-size:.9rem;color:var(--text-muted)}
+      .micro-summary-skill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(99,102,241,.1);color:var(--primary);padding:.5rem 1rem;border-radius:20px;font-weight:500;font-size:.85rem}
+      .reading-time{color:var(--text-muted);font-size:.8rem}
+    `;
+  
+    function addEnhancedMicroSummaryStyles() {
+      const styleEl = document.createElement("style");
+      styleEl.textContent = enhancedMicroSummaryCSS;
+      document.head.appendChild(styleEl);
+    }
+    addEnhancedMicroSummaryStyles();
+    // ===========================================================================
+  
+    // --- Skills Taxonomy (hard-coded) ---
+    const SKILLS = [
+      { key: "Algorithm", terms: ["algorithm", "search", "sort", "greedy", "dp", "dynamic programming", "recursion", "backtracking", "graph", "tree", "bfs", "dfs"] },
+      { key: "DS", terms: ["data structure", "array", "list", "stack", "queue", "heap", "hash", "set", "map", "tree", "graph", "trie"] },
+      { key: "System Design", terms: ["system design", "scalability", "architecture", "api", "database", "cache", "load balancer", "microservices", "consistency", "availability"] },
+      { key: "Behavioural", terms: ["behavioural", "leadership", "conflict", "team", "communication", "ownership", "impact", "feedback", "culture"] }
+    ];
+  
+    // --- Company Weights (YAML-like) ---
+    const COMPANY_WEIGHTS = {
+      google: { Algorithm: 1.2, DS: 1.1, "System Design": 1.0, Behavioural: 0.8 },
+      amazon: { Algorithm: 1.0, DS: 1.0, "System Design": 1.1, Behavioural: 1.2 },
+      meta:   { Algorithm: 1.1, DS: 1.0, "System Design": 1.1, Behavioural: 1.0 }
+    };
+    let currentCompany = "google";
+  
+    // --- State ---
+    let files = [];
+    let parsedSections = []; // [{file, sections:[{title, text, skill, tfidf, score, summary}]}]
+    let flatSections = [];   // [{title, skill, tfidf, score, summary, file, text}]
+    let activeSkills = new Set(SKILLS.map(s=>s.key));
+    let calendarDays = 7;
+
+  
+    // --- DOM ---
+    const importZone = document.getElementById('importZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+    const spinnerOverlay = document.getElementById('spinnerOverlay');
+    const mainPanels = document.getElementById('mainPanels');
+    const skillChips = document.getElementById('skillChips');
+    const rankTable = document.getElementById('rankTable');
+    const microSummary = document.getElementById('microSummary');
+    const calendarPreview = document.getElementById('calendarPreview');
+    const daysSlider = document.getElementById('daysSlider');
+    const daysVal = document.getElementById('daysVal');
+    const downloadICSBtn = document.getElementById('downloadICSBtn');
+    const exportBtns = document.getElementById('exportBtns');
+    const downloadJSONBtn = document.getElementById('downloadJSONBtn');
+    const copyMarkdownBtn = document.getElementById('copyMarkdownBtn');
+  
+    // --- Hero scroll ---
+    document.getElementById('getStartedBtn').onclick = () => {
+      document.getElementById('importZoneWrap').scrollIntoView({behavior:'smooth'});
+    };
+  
+    // --- Nav smooth scroll ---
+    document.querySelectorAll('.nav-links a[href^="#"]').forEach(a=>{
+      a.onclick = e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+      };
+    });
+  
+    // --- File Input/Drag ---
+    importZone.addEventListener('click', () => fileInput.click());
+    importZone.addEventListener('dragover', e => { e.preventDefault(); importZone.classList.add('dragover'); });
+    importZone.addEventListener('dragleave', e => { e.preventDefault(); importZone.classList.remove('dragover'); });
+    importZone.addEventListener('drop', e => { e.preventDefault(); importZone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
+    fileInput.addEventListener('change', e => handleFiles(e.target.files));
+  
+    function handleFiles(fileListObj) {
+      let arr = Array.from(fileListObj).filter(f=>f.type==='application/pdf');
+      if (files.length + arr.length > 10) { alert("Max 10 PDFs allowed."); return; }
+      files = files.concat(arr.slice(0,10-files.length));
+      renderFileList();
+    }
+  
+    function renderFileList() {
+      fileList.innerHTML = '';
+      files.forEach((f,i)=>{
+        let div = document.createElement('div');
+        div.className = 'file-item';
+        div.innerHTML = `<span>${f.name} <span style="color:#888;font-size:0.95em;">(${(f.size/1024/1024).toFixed(2)} MB)</span></span>
+          <span class="remove" title="Remove">&times;</span>`;
+        div.querySelector('.remove').onclick = () => { files.splice(i,1); renderFileList(); };
+        fileList.appendChild(div);
+      });
+      if (files.length) {
+        let parseBtn = document.createElement('button');
+        parseBtn.className = 'btn'; parseBtn.textContent = 'Parse PDFs';
+        parseBtn.onclick = startParsing;
+        fileList.appendChild(parseBtn);
+      }
+    }
+  
+    // --- Parsing Spinner ---
+    function showSpinner(show) { spinnerOverlay.style.display = show ? 'flex' : 'none'; }
+  
+    // --- PDF Parsing and Section Extraction ---
+    async function startParsing() {
+      showSpinner(true);
+      await loadPDFJS();
+      parsedSections = [];
+      for (let file of files) {
+        let arrBuf = await file.arrayBuffer();
+        let pdf = await pdfjsLib.getDocument({data:arrBuf}).promise;
+        let sections = [];
+        for (let i=1; i<=pdf.numPages; ++i) {
+          let page = await pdf.getPage(i);
+          let content = await page.getTextContent();
+          let blocks = extractSections(content.items);
+          for (let b of blocks) {
+            if (b.text.length > 30) sections.push({...b, file:file.name});
+          }
+        }
+        parsedSections.push({file:file.name, sections});
+      }
+  
+      // Flatten, score, summarise
+      flatSections = [];
+      for (let doc of parsedSections) {
+        for (let s of doc.sections) {
+          let skill = detectSkill(s.text);
+          let tfidf = tfidfScore(s.text, skill);
+          let score = tfidf * (COMPANY_WEIGHTS[currentCompany][skill]||1);
+          let summary = microSummaryText(s.text);
+          // NOTE: include the full raw text so the formatter can use it
+          flatSections.push({title:s.title, skill, tfidf, score, summary, file:doc.file, text:s.text});
+        }
+      }
+      flatSections.sort((a,b)=>b.score-a.score);
+  
+      showSpinner(false);
+      importZone.style.display = 'none';
+      mainPanels.style.display = '';
+      exportBtns.style.display = 'flex';
+      renderSkillChips();
+      renderRankTable();
+      renderCalendar();
+    }
+  
+    // --- Section Extraction Heuristic ---
+    function extractSections(items) {
+      // Group by font size, treat largest as h1, next as h2, etc.
+      let fontSizes = Array.from(new Set(items.map(i=>i.transform[0]))).sort((a,b)=>b-a);
+      let h1 = fontSizes[0], h2 = fontSizes[1]||h1, h3 = fontSizes[2]||h2;
+      let blocks = [], cur = null;
+      for (let i=0; i<items.length; ++i) {
+        let t = items[i].str.trim();
+        if (!t) continue;
+        let size = items[i].transform[0];
+        if (size === h1) { // New section
+          if (cur) blocks.push(cur);
+          cur = {title:t, text:""};
+        } else if (size === h2 && cur) {
+          cur.text += "\n## "+t+"\n";
+        } else if (size === h3 && cur) {
+          cur.text += "\n### "+t+"\n";
+        } else if (cur) {
+          cur.text += " "+t;
+        }
+      }
+      if (cur) blocks.push(cur);
+      return blocks;
+    }
+  
+    // --- Skill Detection ---
+    function detectSkill(text) {
+      text = text.toLowerCase();
+      for (let s of SKILLS) {
+        if (s.terms.some(term=>text.includes(term))) return s.key;
+      }
+      return "Algorithm";
+    }
+  
+    // --- TF-IDF Scoring (simple) ---
+    function tfidfScore(text, skill) {
+      let terms = SKILLS.find(s=>s.key===skill).terms;
+      let tf = terms.reduce((acc,term)=>acc+(text.toLowerCase().split(term).length-1),0);
+      let idf = Math.log(1 + 1/(tf||1));
+      return tf * idf;
+    }
+  
+    // --- Micro-summary helpers ---
+    function microSummaryText(text) {
+      // Return full text; no truncation
+      return text.trim();
+    }
+  
+    function showMicroSummary(section) {
+      const fullText = section.text || section.summary || "";
+      microSummary.innerHTML = formatMicroSummary(fullText, section.title, section.skill);
+    }
+  
+    // --- Skill Chips UI ---
+    function renderSkillChips() {
+      skillChips.innerHTML = '';
+      SKILLS.forEach(s=>{
+        let chip = document.createElement('div');
+        chip.className = 'chip'+(activeSkills.has(s.key)?' active':'');
+        chip.textContent = s.key;
+        chip.onclick = ()=>{
+          if (activeSkills.has(s.key)) activeSkills.delete(s.key);
+          else activeSkills.add(s.key);
+          renderSkillChips(); renderRankTable();
+        };
+        skillChips.appendChild(chip);
+      });
+    }
+  
+    // --- Ranked Table UI ---
+    function renderRankTable() {
+      let filtered = flatSections.filter(s=>activeSkills.has(s.skill));
+      let topN = filtered.slice(0,10);
+      rankTable.innerHTML = `<tr><th>Section</th><th>Skill</th><th>Score</th><th></th></tr>`;
+      topN.forEach((s,i)=>{
+        let tr = document.createElement('tr');
+        tr.style.animationDelay = (i*0.05)+'s';
+        tr.innerHTML = `
+          <td>${s.title}</td>
+          <td><span class="chip" style="background:${chipColor(s.skill)};color:#fff;">${s.skill}</span></td>
+          <td><div class="score-bar-wrap"><span class="score-bar" style="width:${Math.min(100,Math.round(s.score*12))}%;"></span></div></td>
+          <td><button class="expand-btn">⮟</button></td>
+        `;
+        tr.querySelector('.expand-btn').onclick = ()=>{ showMicroSummary(s); };
+        rankTable.appendChild(tr);
+      });
+    }
+  
+    function chipColor(skill) {
+      switch(skill) {
+        case "Algorithm": return "var(--primary)";
+        case "DS": return "var(--accent)";
+        case "System Design": return "#7C4DFF";
+        case "Behavioural": return "var(--warning)";
+        default: return "#888";
+      }
+    }
+  
+    // --- Calendar Synthesiser ---
+    daysSlider.oninput = function() {
+      daysVal.textContent = this.value;
+      calendarDays = +this.value;
+      renderCalendar();
+    };
+  
+    function renderCalendar() {
+  const filtered   = flatSections.filter(s => activeSkills.has(s.skill));
+  const topSections = filtered.slice(0, calendarDays);
+
+  /* basic study blocks (same as before) */
+  const pattern = Array.from({length: calendarDays}, (_, i) => {
+    const day = [];
+    if (i % 1 === 0) day.push("2h Coding");
+    if (i % 2 === 0) day.push("1h Design");
+    if (i % 3 === 0) day.push("30m Behavioural");
+    return day;
+  });
+
+  /* 4 cards per row – edit 4→3 or 5 if you like */
+  const cardsPerRow = 4;
+  let html = `<div class="calendar-grid" 
+                style="grid-template-columns:repeat(${cardsPerRow}, minmax(180px,1fr));">`;
+
+  for (let i = 0; i < calendarDays; ++i) {
+    html += `<div class="calendar-day">
+               <strong>Day ${i + 1}</strong>`;
+    if (topSections[i])
+      html += `<span class="task">${topSections[i].title}</span>`;
+    pattern[i].forEach(t => html += `<span class="task">${t}</span>`);
+    html += `</div>`;
+  }
+  html += `</div>`;
+  calendarPreview.innerHTML = html;
+}
+
+  
+    // --- ICS Export (minimal) ---
+    downloadICSBtn.onclick = function() {
+      let filtered = flatSections.filter(s=>activeSkills.has(s.skill));
+      let topSections = filtered.slice(0,calendarDays);
+      let ics = "BEGIN:VCALENDAR\nVERSION:2.0\n";
+      let now = new Date();
+      for (let i=0; i<topSections.length; ++i) {
+        let dt = new Date(now.getTime()+i*86400000);
+        let dtstr = dt.toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
+        ics += `BEGIN:VEVENT\nSUMMARY:${topSections[i].title}\nDTSTART:${dtstr}\nDURATION:PT2H\nEND:VEVENT\n`;
+      }
+      ics += "END:VCALENDAR";
+      let blob = new Blob([ics],{type:'text/calendar'});
+      let a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = "prepmap.ics";
+      a.click();
+    };
+  
+    // --- Export JSON ---
+    downloadJSONBtn.onclick = function() {
+      let filtered = flatSections.filter(s=>activeSkills.has(s.skill));
+      let json = JSON.stringify(filtered,null,2);
+      let blob = new Blob([json],{type:'application/json'});
+      let a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = "prepmap.json";
+      a.click();
+    };
+  
+    // --- Copy Markdown ---
+    copyMarkdownBtn.onclick = function() {
+      let filtered = flatSections.filter(s=>activeSkills.has(s.skill));
+      let md = "# PrepMap Pro Outline\n";
+      filtered.forEach(s=>{
+        md += `- **${s.title}** (${s.skill})\n  - Score: ${s.score.toFixed(2)}\n  - Summary: ${s.summary}\n`;
+      });
+      navigator.clipboard.writeText(md);
+      copyMarkdownBtn.textContent = "Copied!";
+      setTimeout(()=>copyMarkdownBtn.textContent="Copy Markdown",1200);
+    };
+  </script>
+</body>
+</html>
