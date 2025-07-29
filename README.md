@@ -1,7 +1,7 @@
 # PreMap‑pro
+"> **Interactive pre‑planning map utility (single‑page web app)**  
+> *PreMap‑Pro: Turn massive PDFs into bite‑sized notes and an auto‑generated, day‑by‑day interview study plan—right in your browser.*"
 
-> **Interactive pre‑planning map utility (single‑page web app)**  
-> *(Replace this one‑liner with a crisp value‑prop in your own words.)*
 
 ---
 
