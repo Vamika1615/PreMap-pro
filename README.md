@@ -31,6 +31,12 @@ No server, no signup — just open `index.html` and drop your files.
 
 ---
 
+## Project Files
+- `index.html`: Main HTML file
+- `README.md`: Project information
+- `Dsa.pdf`: Reference document
+---
+
 ## Getting Started
 ```bash
 git clone https://github.com/Vamika1615/PreMap-pro
