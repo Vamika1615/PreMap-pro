@@ -3,29 +3,38 @@
 
 ---
 
-## ✨ What it does
-1. **Import multiple PDFs** (placement guides, coding sets, system‑design decks).  
-2. **Auto‑detect skills** – Algorithms, Data Structures, System Design, Behavioural.  
-3. **Rank sections** by TF‑IDF × company weight profile (Google default).  
-4. **Generate a day‑by‑day schedule** (2 h coding • 1 h design • 30 m behavioural).  
-5. **Export:**  
-   * 📅 **prepmap_plan.ics** – ready for Google / Outlook Calendar  
-   * 📄 JSON outline – share or feed into a back‑end later  
+⚡ **Value Proposition**  
+A feather‑light web tool that lets you rough‑out routes, pin POIs, and hand off a single-file “pre‑map” to teammates — no heavyweight GIS software required.
 
-_All processing stays in your browser; no file ever leaves your laptop._
+❗ **Pain We Eliminate**
+- 💾 **Overkill Tooling**: Students and engineers must install 2 GB GIS suites just to sketch basic maps.
+- 📤 **Sharing Friction**: Shapefiles and project folders break over email; recipients often don’t have compatible tools.
+- 🕒 **Iteration Lag**: Every minor tweak requires re-exporting, zipping, and re‑sharing bloated GIS projects.
 
 ---
 
-## 🏁 Quick start
+## 🚀 Core Features
 
-```bash
-git clone https://github.com/yourname/prepmap-pro
-cd prepmap-pro
+| **Feature**              | **What it Delivers**                                                              |
+|---------------------------|-----------------------------------------------------------------------------------|
+| 📍 **Point‑and‑Click Pinning**    | Drop markers on the canvas in a single tap — ideal for POIs or checkpoints.         |
+| ✏️ **Quick Polyline Drawing**    | Trace routes or rough shapes in seconds; precision toggle with snap‑to‑grid.        |
+| 📝 **Inline Notes**             | Add rich-text TODOs or comments to any pin/polyline for instant collaboration.      |
+| 🗂 **Single‑File Export**        | Outputs a `.html` snapshot containing all map data, pins, and notes — share freely. |
+| 📴 **Zero Backend**              | Fully offline, ES6‑only tool — works from GitHub Pages or `file://` without setup.  |
 
-# add a wide hero image:
-mkdir -p assets && cp ~/Pictures/hero_study.jpg assets/
+---
 
-# serve locally (choose one)
-npx serve .          # simple static server
-# OR
+## ⚙️ Tech Stack
+
+| **Layer**        | **Choice**                             |
+|------------------|-----------------------------------------|
+| 🧱 Mark‑up       | HTML5                                    |
+| 🎨 Styling       | Vanilla CSS / Tailwind (planned)         |
+| 🧠 Interactivity | ES6 JavaScript                           |
+| 🗺 Mapping API   | Leaflet.js *(in roadmap)*                |
+| 🚀 Hosting       | GitHub Pages / Offline (drag‑drop HTML)  |
+
+---
+
 python -m http.server
